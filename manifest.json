@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Jira Card Colors",
     "version": "1.0",
-    "description": "Make Jira card colors color entire card instead of just the side",
+    "description": "Make Jira card colors color entire card instead of just the side.",
     "icons": {
         "16": "images/icon-16.png",
         "32": "images/icon-32.png",
@@ -18,7 +18,16 @@
     "background": {
         "service_worker": "scripts/background.js"
     },
-    "options_page": "options/options.html", // Link to options page
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "images/icon-16.png",
+            "32": "images/icon-32.png",
+            "48": "images/icon-48.png",
+            "128": "images/icon-128.png"
+        }
+    },
+    "options_page": "options.html",
     "content_scripts": [
         {
             "matches": [

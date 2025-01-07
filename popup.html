@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jira Card Colors</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="popup-container">
+        <h2>Jira Card Colors</h2>
+
+        <div class="form-group">
+            <label for="background-type">Background Type:</label>
+            <div class="radio-group">
+                <label><input type="radio" name="background-type" value="solid" checked> Solid Color</label>
+                <label><input type="radio" name="background-type" value="stripes"> Stripes</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="transparency">Transparency (%):</label>
+            <input type="number" id="transparency" min="0" max="100" value="80">
+        </div>
+
+        <div class="form-group">
+            <label for="colorblind-mode">Enable Colorblind Mode:</label>
+            <input type="checkbox" id="colorblind-mode">
+        </div>
+
+        <div class="form-group">
+            <label for="colorblind-type">Select Colorblind Type:</label>
+            <select id="colorblind-type" disabled>
+                <option value="deuteranopia">Deuteranopia (Green)</option>
+                <option value="protanopia">Protanopia (Red)</option>
+                <option value="tritanopia">Tritanopia (Blue)</option>
+            </select>
+        </div>
+
+        <button id="save">Save</button>
+
+        <!-- Message to show after saving -->
+        <div id="saved-message" class="saved-message hidden">
+            <span>&#x2714;</span> Settings saved!
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>
