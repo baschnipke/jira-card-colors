@@ -13,6 +13,23 @@
     <div class="container">
         <h2>Jira Card Colors</h2>
 
+        <!-- Colorblind Mode -->
+        <div class="form-group">
+            <label for="colorblind-mode">Enable Colorblind Mode:</label>
+            <input type="checkbox" id="colorblind-mode">
+        </div>
+
+        <!-- Select Colorblind Type -->
+        <div class="form-group">
+            <label for="colorblind-type">Select Colorblind Type:</label>
+            <select id="colorblind-type" disabled>
+                <option value="deuteranopia">Deuteranopia (Green)</option>
+                <option value="protanopia">Protanopia (Red)</option>
+                <option value="tritanopia">Tritanopia (Blue)</option>
+            </select>
+        </div>
+
+        <!-- Background Type -->
         <div class="form-group">
             <label for="background-type">Background Type:</label>
             <div class="radio-group">
@@ -21,6 +38,7 @@
             </div>
         </div>
 
+        <!-- Transparency -->
         <div class="form-group">
             <label for="transparency">Transparency (%):</label>
             <input type="number" id="transparency" min="0" max="100" value="80">
