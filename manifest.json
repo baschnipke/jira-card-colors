@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Jira Card Colors",
     "version": "0.0.0.1",
-    "description": "Jira Card Colorizer customizes your Jira board by adding solid or striped backgrounds, adjusting transparency, and supporting colorblind modes for better accessibility.",
+    "description": "Makes Jira card colors more noticeable by coloring the entire card, with options for stripes, transparency, and colorblind support.",
     "icons": {
         "16": "images/icon-16.png",
         "32": "images/icon-32.png",
