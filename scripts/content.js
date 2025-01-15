@@ -3,10 +3,15 @@ const observer = new MutationObserver(() => {
         const color = div.getAttribute('color');
         if (!color) return;
 
+        // Find the parent div with an id that starts with "card"
+        const parentDiv = div.closest('div[id^="card"]');
+        if (parentDiv) {
+            parentDiv.classList.add('card-modified');  // Add class to the parent div
+        }
+
         // Get user preferences from storage
         chrome.storage.local.get(['backgroundType', 'transparency', 'colorblindMode', 'colorblindType'], (data) => {
             const backgroundType = data.backgroundType || 'solid';
-            // Convert transparency from percentage (0-100) to decimal (0-1)
             const transparency = (data.transparency !== undefined) ? data.transparency / 100 : 0.8; // Convert percentage to 0-1
 
             const colorblindMode = data.colorblindMode || false;
@@ -18,17 +23,12 @@ const observer = new MutationObserver(() => {
             // Convert color to rgba with transparency
             const rgbaColor = hexToRgba(finalColor, transparency);
 
-            const button = div.closest('div[data-testid="platform-board-kit.ui.card.card"]')
-                ?.querySelector('button[data-testid="platform-card.ui.card.focus-container"]');
-
+            const button = parentDiv.querySelector('button[data-testid="platform-card.ui.card.focus-container"]');
             if (button) {
-                // Clear previous background styles
-                button.style.backgroundImage = "";
-                button.style.backgroundColor = "";
-
+                // Apply background based on backgroundType
                 if (backgroundType === 'stripes') {
                     button.style.backgroundImage = `linear-gradient(45deg, ${rgbaColor} 25%, transparent 25%, transparent 50%, ${rgbaColor} 50%, ${rgbaColor} 75%, transparent 75%, transparent)`;
-                    button.style.backgroundSize = '10px 10px';  // Control the size of the stripes
+                    button.style.backgroundSize = '10px 10px';
                 } else {
                     button.style.backgroundColor = rgbaColor;
                 }
@@ -37,13 +37,39 @@ const observer = new MutationObserver(() => {
     });
 });
 
-// Adjust the observer to only observe relevant parts of the DOM
+// Observe the changes in the document
 observer.observe(document.body, {
-    childList: true,     // Observe for added or removed child nodes
-    subtree: true,      // Don't observe entire document (this prevents a lot of unnecessary checks)
-    attributes: true,    // Observe changes in attributes like the 'color' attribute
-    attributeFilter: ['color'], // Only observe changes to the color and class attributes
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['color'],  // Watch for color changes
 });
+
+const removalObserver = new MutationObserver(() => {
+    document.querySelectorAll('div[class*="card-modified"]').forEach(parentDiv => {
+        // Check if cardColorInner still exists
+        const colorDiv = parentDiv.querySelector('div[class*="cardColorInner"]');
+        const button = parentDiv.querySelector('button[data-testid="platform-card.ui.card.focus-container"]');
+
+        if (colorDiv) {
+            // Apply the background color if cardColorInner is present
+            const color = colorDiv.getAttribute('color');
+            const rgbaColor = hexToRgba(color, 0.8); // Default transparency set to 0.8
+            button.style.backgroundColor = rgbaColor;
+        } else {
+            // Remove the background color if cardColorInner is absent
+            button.style.backgroundColor = "";
+            button.style.backgroundImage = "";
+        }
+    });
+});
+
+// Observe changes in the DOM for any card-modified divs
+removalObserver.observe(document.body, {
+    childList: true,
+    subtree: true,
+});
+
 
 // Convert hex color to rgba
 function hexToRgba(hex, alpha) {
