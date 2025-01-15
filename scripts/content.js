@@ -25,15 +25,7 @@ const observer = new MutationObserver(() => {
 
             const button = parentDiv.querySelector('button[data-testid="platform-card.ui.card.focus-container"]');
             if (button) {
-                button.style.backgroundColor = "";
-                button.style.backgroundImage = "";
-                // Apply background based on backgroundType
-                if (backgroundType === 'stripes') {
-                    button.style.backgroundImage = `linear-gradient(45deg, ${rgbaColor} 25%, transparent 25%, transparent 50%, ${rgbaColor} 50%, ${rgbaColor} 75%, transparent 75%, transparent)`;
-                    button.style.backgroundSize = '10px 10px';
-                } else {
-                    button.style.backgroundColor = rgbaColor;
-                }
+                setButtonBackground(button, rgbaColor, backgroundType);
             }
         });
     });
@@ -54,10 +46,7 @@ const removalObserver = new MutationObserver(() => {
         const button = parentDiv.querySelector('button[data-testid="platform-card.ui.card.focus-container"]');
 
         if (colorDiv) {
-            // Apply the background color if cardColorInner is present
-            const color = colorDiv.getAttribute('color');
-            const rgbaColor = hexToRgba(color, 0.8); // Default transparency set to 0.8
-            button.style.backgroundColor = rgbaColor;
+            setButtonBackground(button, rgbaColor, backgroundType);
         } else {
             // Remove the background color if cardColorInner is absent
             button.style.backgroundColor = "";
@@ -166,4 +155,16 @@ function adjustColorForColorblindness(color, type) {
     }
 }
 
+function setButtonBackground(button, rgbaColor, backgroundType) {
+    // Clear any previous background styles
+    button.style.backgroundImage = "";
+    button.style.backgroundColor = "";
 
+    // Apply background based on the backgroundType
+    if (backgroundType === 'stripes') {
+        button.style.backgroundImage = `linear-gradient(45deg, ${rgbaColor} 25%, transparent 25%, transparent 50%, ${rgbaColor} 50%, ${rgbaColor} 75%, transparent 75%, transparent)`;
+        button.style.backgroundSize = '10px 10px'; // Control the size of the stripes
+    } else {
+        button.style.backgroundColor = rgbaColor;
+    }
+}
