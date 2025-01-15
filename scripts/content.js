@@ -25,6 +25,8 @@ const observer = new MutationObserver(() => {
 
             const button = parentDiv.querySelector('button[data-testid="platform-card.ui.card.focus-container"]');
             if (button) {
+                button.style.backgroundColor = "";
+                button.style.backgroundImage = "";
                 // Apply background based on backgroundType
                 if (backgroundType === 'stripes') {
                     button.style.backgroundImage = `linear-gradient(45deg, ${rgbaColor} 25%, transparent 25%, transparent 50%, ${rgbaColor} 50%, ${rgbaColor} 75%, transparent 75%, transparent)`;
